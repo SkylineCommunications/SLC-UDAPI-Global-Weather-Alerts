@@ -1,18 +1,18 @@
-using System.Linq;
-
-using Skyline.DataMiner.Automation;
-using Skyline.DataMiner.Net.Apps.UserDefinableApis;
-using Skyline.DataMiner.Net.Apps.UserDefinableApis.Actions;
-
 namespace SLCUDAPIGlobalWeatherAlerts
 {
+    using System.Linq;
+    using Skyline.DataMiner.Automation;
+    using Skyline.DataMiner.Net.Apps.UserDefinableApis;
+    using Skyline.DataMiner.Net.Apps.UserDefinableApis.Actions;
+
     /// <summary>
     /// Represents a DataMiner user-defined API.
     /// </summary>
     public class Script
     {
         private readonly int receiverParameter = 1000000;
-        private readonly string SkylineUniversalWeatherProtocolName = "Skyline Universal Weather";
+        private readonly string skylineUniversalWeatherProtocolName = "Skyline Universal Weather";
+        private readonly string skylineUniversalWeatherProtocolVersion = "1.1.1.1";
 
         /// <summary>
         /// The API trigger.
@@ -36,14 +36,14 @@ namespace SLCUDAPIGlobalWeatherAlerts
                 };
             }
 
-            var element = engine.FindElementsByProtocol(SkylineUniversalWeatherProtocolName).FirstOrDefault();
+            var element = engine.FindElementsByProtocol(this.skylineUniversalWeatherProtocolName, this.skylineUniversalWeatherProtocolVersion).FirstOrDefault();
             if (element == null)
             {
-                engine.GenerateInformation($"No element found in DMS using {SkylineUniversalWeatherProtocolName}.");
+                engine.GenerateInformation($"No element found in DMS using {this.skylineUniversalWeatherProtocolName}. TESTING TEMPORARY: Received {method} request for route: '{route}' with body: '{body}");
             }
             else
             {
-                element.SetParameter(receiverParameter, body);
+                element.SetParameter(this.receiverParameter, body);
             }
 
             return new ApiTriggerOutput
